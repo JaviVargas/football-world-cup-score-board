@@ -1,9 +1,12 @@
 package com.sports;
 
 import com.sports.adapter.IScoreBoardAdapter;
+import com.sports.error.TeamAlreadyPlayingException;
 import com.sports.model.Game;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ScoreBoard {
 
@@ -29,6 +32,13 @@ public class ScoreBoard {
     }
 
     /**
+     *  Reset the singleton instance (For testing purposes mainly).
+     */
+    public static void reset() {
+        INSTANCE = null;
+    }
+
+    /**
      * Create a new game with the given teams names
      *
      * @param homeTeam local team name
@@ -36,7 +46,12 @@ public class ScoreBoard {
      * @return the created game {@link Game}
      */
     public Game startGame(String homeTeam, String awayTeam) {
-        // TODO add validation: if team is already playing throw error
+        List<Game> currentGames = scoreBoardAdapter.findPlayingGamesByTeamNames(homeTeam, awayTeam);
+        if (!currentGames.isEmpty()) {
+            throw new TeamAlreadyPlayingException(String.format("Following teams are already playing: %s",
+                    currentGames.stream().map(g ->
+                            String.format("%s vs %s, ", g.getHomeTeam(), g.getAwayTeam())).collect(Collectors.joining())));
+        }
         Game game = new Game(homeTeam, awayTeam, 0, 0, new Date(), null);
         return scoreBoardAdapter.save(game);
     }

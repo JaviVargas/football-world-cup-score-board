@@ -2,6 +2,8 @@ package com.sports.adapter;
 
 import com.sports.model.Game;
 
+import java.util.List;
+
 public class ScoreBoardAdapterImpl implements IScoreBoardAdapter {
 
     private static ScoreBoardAdapterImpl INSTANCE;
@@ -18,6 +20,11 @@ public class ScoreBoardAdapterImpl implements IScoreBoardAdapter {
 
     @Override
     public Game save(Game game) {
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
+
+    @Override
+    public List<Game> findPlayingGamesByTeamNames(String... teamNames) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 

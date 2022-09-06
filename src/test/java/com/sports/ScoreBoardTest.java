@@ -1,16 +1,19 @@
 package com.sports;
 
 import com.sports.adapter.ScoreBoardAdapterImpl;
+import com.sports.error.TeamAlreadyPlayingException;
 import com.sports.model.Game;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.verify;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class ScoreBoardTest {
 
@@ -29,6 +32,11 @@ class ScoreBoardTest {
         scoreBoard = ScoreBoard.getInstance(scoreBoardAdapter);
     }
 
+    @AfterEach
+    void resetSingleton() {
+        ScoreBoard.reset();
+    }
+
     @Test
     void shouldCreateAGame() {
         scoreBoard.startGame(TEAM_NAME, ANOTHER_TEAM_NAME);
@@ -43,6 +51,13 @@ class ScoreBoardTest {
         assertEquals(0, gameToSave.getHomeScore());
         assertEquals(0, gameToSave.getAwayScore());
         assertNotNull(gameToSave.getStartDate());
+    }
+
+    @Test
+    void shouldNotCreateAGame() {
+        when(scoreBoardAdapter.findPlayingGamesByTeamNames(TEAM_NAME, ANOTHER_TEAM_NAME)).thenReturn(List.of(game));
+        assertThrows(TeamAlreadyPlayingException.class, () -> scoreBoard.startGame(TEAM_NAME, ANOTHER_TEAM_NAME));
+        verify(scoreBoardAdapter, never()).save(game);
     }
 
 }
