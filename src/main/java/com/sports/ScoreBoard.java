@@ -56,4 +56,14 @@ public class ScoreBoard {
         Game game = new Game(homeTeam, awayTeam, 0, 0, LocalDateTime.now());
         return scoreBoardAdapter.save(game);
     }
+
+    /**
+     * Remove the game matching the given home and away teams
+     *
+     * @param homeTeam local team name
+     * @param awayTeam visitor team name
+     */
+    public void finishGame(String homeTeam, String awayTeam) {
+        scoreBoardAdapter.removeGame(homeTeam, awayTeam);
+    }
 }

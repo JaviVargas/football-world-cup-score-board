@@ -54,4 +54,9 @@ public class ScoreBoardAdapterImpl implements IScoreBoardAdapter {
         }).collect(Collectors.toList());
     }
 
+    @Override
+    public void removeGame(String homeTeam, String awayTeam) {
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
+
 }

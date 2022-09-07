@@ -60,4 +60,12 @@ class ScoreBoardTest {
         verify(scoreBoardAdapter, never()).save(game);
     }
 
+    @Test
+    void shouldFinishGame() {
+        String homeTeam = "Home team 1";
+        String awayTeam = "Away team 2";
+        scoreBoard.finishGame(homeTeam, awayTeam);
+        verify(scoreBoardAdapter).removeGame(homeTeam, awayTeam);
+    }
+
 }

@@ -28,4 +28,12 @@ public interface IScoreBoardAdapter {
      * @return a {@link List<Game>} with all stored games ordered by start date.
      */
     List<Game> findAllOrderedByStartDate();
+
+    /**
+     * Remove the game matching the given home and away teams
+     *
+     * @param homeTeam local team name
+     * @param awayTeam visitor team name
+     */
+    void removeGame(String homeTeam, String awayTeam);
 }
