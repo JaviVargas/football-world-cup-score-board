@@ -56,7 +56,7 @@ public class ScoreBoardAdapterImpl implements IScoreBoardAdapter {
 
     @Override
     public void removeGame(String homeTeam, String awayTeam) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        scoreBoard.removeIf(game -> homeTeam.equals(game.getHomeTeam()) && awayTeam.equals(game.getAwayTeam()));
     }
 
 }

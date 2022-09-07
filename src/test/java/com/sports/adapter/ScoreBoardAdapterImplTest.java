@@ -52,6 +52,16 @@ class ScoreBoardAdapterImplTest {
         assertEquals(1, anotherPlayingGames.size());
     }
 
+    @Test
+    void shouldRemoveGame() {
+        saveGames();
+        String homeTeam = "Home team 1";
+        String awayTeam = "Away team 2";
+        scoreBoardAdapter.removeGame(homeTeam, awayTeam);
+        List<Game> games = scoreBoardAdapter.findPlayingGamesByTeamNames(homeTeam, awayTeam);
+        assertTrue(games.stream().noneMatch(game -> homeTeam.equals(game.getHomeTeam())));
+    }
+
     private void saveGames() {
         Game game = new Game("Home team 1", "Away team 2", 0, 0, LocalDateTime.now());
         Game anotherGame = new Game("Home team 3", "Away team 4", 0, 0, LocalDateTime.now().plusHours(2));
