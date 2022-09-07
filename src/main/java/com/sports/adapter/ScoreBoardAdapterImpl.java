@@ -40,6 +40,14 @@ public class ScoreBoardAdapterImpl implements IScoreBoardAdapter {
     }
 
     @Override
+    public void updateScore(String homeTeam, String awayTeam, int homeScore, int awayScore) {
+        findGameByTeams(homeTeam, awayTeam).ifPresent(game -> {
+            game.setHomeScore(homeScore);
+            game.setAwayScore(awayScore);
+        });
+    }
+
+    @Override
     public List<Game> findAllOrderedByStartDate() {
         List<Game> auxList = new ArrayList<>(scoreBoard);
         auxList.sort(Comparator.comparing(Game::getStartDate));

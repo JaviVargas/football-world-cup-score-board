@@ -61,6 +61,22 @@ public class ScoreBoard {
     }
 
     /**
+     * Updates the score for a game matching the team names
+     *
+     * @param homeTeam  local team name
+     * @param awayTeam  visitor team name
+     * @param homeScore local team score
+     * @param awayScore visitor team score
+     */
+    public void updateScore(String homeTeam, String awayTeam, int homeScore, int awayScore) {
+        Optional<Game> currentGames = scoreBoardAdapter.findGameByTeams(homeTeam, awayTeam);
+        if (currentGames.isEmpty()) {
+            throw new GameNotFoundException(String.format("%s vs %s, ", homeTeam, awayTeam));
+        }
+        scoreBoardAdapter.updateScore(homeTeam, awayTeam, homeScore, awayScore);
+    }
+
+    /**
      * Remove the game matching the given home and away teams
      *
      * @param homeTeam local team name
@@ -86,4 +102,5 @@ public class ScoreBoard {
         comparator = comparator.thenComparing(Game::getStartDate).reversed();
         return games.stream().sorted(comparator).collect(Collectors.toList());
     }
+
 }

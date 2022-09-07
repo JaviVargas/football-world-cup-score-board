@@ -47,4 +47,13 @@ public interface IScoreBoardAdapter {
      */
     void removeGame(String homeTeam, String awayTeam);
 
+    /**
+     * Updates the score for a game matching the team names
+     *
+     * @param homeTeam  local team name
+     * @param awayTeam  visitor team name
+     * @param homeScore local team score
+     * @param awayScore visitor team score
+     */
+    void updateScore(String homeTeam, String awayTeam, int homeScore, int awayScore);
 }

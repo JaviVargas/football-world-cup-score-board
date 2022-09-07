@@ -79,6 +79,20 @@ class ScoreBoardTest {
     }
 
     @Test
+    void shouldUpdate() {
+        when(scoreBoardAdapter.findGameByTeams(TEAM_NAME, ANOTHER_TEAM_NAME)).thenReturn(Optional.of(game));
+        scoreBoard.updateScore(TEAM_NAME, ANOTHER_TEAM_NAME, 2, 1);
+        verify(scoreBoardAdapter).updateScore(TEAM_NAME, ANOTHER_TEAM_NAME, 2, 1);
+    }
+
+    @Test
+    void shouldNotUpdate() {
+        when(scoreBoardAdapter.findGameByTeams(TEAM_NAME, ANOTHER_TEAM_NAME)).thenReturn(Optional.empty());
+        assertThrows(GameNotFoundException.class, () -> scoreBoard.updateScore(TEAM_NAME, ANOTHER_TEAM_NAME, 2, 1));
+        verify(scoreBoardAdapter, never()).updateScore(TEAM_NAME, ANOTHER_TEAM_NAME, 2, 1);
+    }
+
+    @Test
     void shouldGetSummary() {
         Game gameA = new Game("Mexico", "Canada", 0, 5, LocalDateTime.now().minusHours(4));
         Game gameB = new Game("Spain", "Brazil", 10, 2, LocalDateTime.now().minusHours(3));

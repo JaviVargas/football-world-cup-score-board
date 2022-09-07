@@ -34,6 +34,17 @@ class ScoreBoardAdapterImplTest {
     }
 
     @Test
+    void shouldUpdate() {
+        saveGames();
+        scoreBoardAdapter.updateScore("Home team 1", "Away team 2", 2, 1);
+        Optional<Game> gameByTeams = scoreBoardAdapter.findGameByTeams("Home team 1", "Away team 2");
+        assertTrue(gameByTeams.isPresent());
+        Game game = gameByTeams.get();
+        assertEquals(2, game.getHomeScore());
+        assertEquals(1, game.getAwayScore());
+    }
+
+    @Test
     void shouldFindAllOrderedByStartDate() {
         saveGames();
         List<Game> gamesByDate = scoreBoardAdapter.findAllOrderedByStartDate();
