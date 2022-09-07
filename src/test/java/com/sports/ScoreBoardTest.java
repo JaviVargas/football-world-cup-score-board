@@ -14,6 +14,7 @@ import org.mockito.MockitoAnnotations;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -65,6 +66,7 @@ class ScoreBoardTest {
 
     @Test
     void shouldFinishGame() {
+        when(scoreBoardAdapter.findGameByTeams(TEAM_NAME, ANOTHER_TEAM_NAME)).thenReturn(Optional.of(game));
         scoreBoard.finishGame(TEAM_NAME, ANOTHER_TEAM_NAME);
         verify(scoreBoardAdapter).removeGame(TEAM_NAME, ANOTHER_TEAM_NAME);
     }

@@ -3,6 +3,7 @@ package com.sports.adapter;
 import com.sports.model.Game;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IScoreBoardAdapter {
 
@@ -30,10 +31,20 @@ public interface IScoreBoardAdapter {
     List<Game> findAllOrderedByStartDate();
 
     /**
+     * Find a game matching the teams names
+     *
+     * @param homeTeam local team name
+     * @param awayTeam visitor team name
+     * @return The Game matching teams names
+     */
+    Optional<Game> findGameByTeams(String homeTeam, String awayTeam);
+
+    /**
      * Remove the game matching the given home and away teams
      *
      * @param homeTeam local team name
      * @param awayTeam visitor team name
      */
     void removeGame(String homeTeam, String awayTeam);
+
 }

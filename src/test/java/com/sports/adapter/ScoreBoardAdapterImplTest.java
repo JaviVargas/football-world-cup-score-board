@@ -7,9 +7,9 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class ScoreBoardAdapterImplTest {
 
@@ -50,6 +50,19 @@ class ScoreBoardAdapterImplTest {
         assertEquals(2, playingGames.size());
         List<Game> anotherPlayingGames = scoreBoardAdapter.findPlayingGamesByTeamNames("Home team 3", "Away team 4");
         assertEquals(1, anotherPlayingGames.size());
+    }
+
+    @Test
+    void shouldFindGameByTeamsNames() {
+        saveGames();
+        Optional<Game> gameOpt = scoreBoardAdapter.findGameByTeams("Home team 1", "Away team 2");
+        assertTrue(gameOpt.isPresent());
+        Game game = gameOpt.get();
+        assertEquals("Home team 1", game.getHomeTeam());
+        assertEquals("Away team 2", game.getAwayTeam());
+        assertEquals(0, game.getHomeScore());
+        assertEquals(0, game.getAwayScore());
+        assertNotNull(game.getStartDate());
     }
 
     @Test

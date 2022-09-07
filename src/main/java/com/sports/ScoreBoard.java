@@ -8,6 +8,7 @@ import com.sports.model.Game;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class ScoreBoard {
@@ -66,7 +67,7 @@ public class ScoreBoard {
      * @param awayTeam visitor team name
      */
     public void finishGame(String homeTeam, String awayTeam) {
-        List<Game> currentGames = scoreBoardAdapter.findPlayingGamesByTeamNames(homeTeam, awayTeam);
+        Optional<Game> currentGames = scoreBoardAdapter.findGameByTeams(homeTeam, awayTeam);
         if (currentGames.isEmpty()) {
             throw new GameNotFoundException(String.format("%s vs %s, ", homeTeam, awayTeam));
         }

@@ -5,6 +5,7 @@ import com.sports.model.Game;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class ScoreBoardAdapterImpl implements IScoreBoardAdapter {
@@ -43,6 +44,12 @@ public class ScoreBoardAdapterImpl implements IScoreBoardAdapter {
         List<Game> auxList = new ArrayList<>(scoreBoard);
         auxList.sort(Comparator.comparing(Game::getStartDate));
         return auxList;
+    }
+
+    @Override
+    public Optional<Game> findGameByTeams(String homeTeam, String awayTeam) {
+        return scoreBoard.stream().filter(game ->
+                game.getHomeTeam().equals(homeTeam) && game.getAwayTeam().equals(awayTeam)).findFirst();
     }
 
     @Override
