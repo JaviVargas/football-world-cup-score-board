@@ -5,6 +5,7 @@ import com.sports.model.Game;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ScoreBoardAdapterImpl implements IScoreBoardAdapter {
 
@@ -20,6 +21,14 @@ public class ScoreBoardAdapterImpl implements IScoreBoardAdapter {
             INSTANCE = new ScoreBoardAdapterImpl();
         }
         return INSTANCE;
+    }
+
+    /**
+     * Reset the singleton instance (For testing purposes mainly).
+     * Note: Cannot be accessed from outside package
+     */
+    public static void reset() {
+        INSTANCE = null;
     }
 
     @Override
@@ -38,7 +47,11 @@ public class ScoreBoardAdapterImpl implements IScoreBoardAdapter {
 
     @Override
     public List<Game> findPlayingGamesByTeamNames(String... teamNames) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        // If the persistence layer were a database it should build a query with the name in OR clause
+        return scoreBoard.stream().filter(game -> {
+            List<String> auxTeamNames = List.of(teamNames);
+            return (auxTeamNames.contains(game.getHomeTeam()) || auxTeamNames.contains(game.getAwayTeam()));
+        }).collect(Collectors.toList());
     }
 
 }
