@@ -4,7 +4,7 @@
 
 Get an instance:
 ```java
- ScoreBoard scoreBoard = ScoreBoard.getInstance();
+ ScoreBoard scoreBoard = ScoreBoard.getInstance(ScoreBoardAdapterImpl.getInstance());
 ```
 ----------
 ## :trident: Available methods:
