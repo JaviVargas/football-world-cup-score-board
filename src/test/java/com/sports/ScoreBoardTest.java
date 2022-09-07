@@ -11,6 +11,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -73,6 +74,26 @@ class ScoreBoardTest {
         when(scoreBoardAdapter.findPlayingGamesByTeamNames(TEAM_NAME, ANOTHER_TEAM_NAME)).thenReturn(Collections.emptyList());
         assertThrows(GameNotFoundException.class, () -> scoreBoard.finishGame(TEAM_NAME, ANOTHER_TEAM_NAME));
         verify(scoreBoardAdapter, never()).removeGame(TEAM_NAME, ANOTHER_TEAM_NAME);
+    }
+
+    @Test
+    void shouldGetSummary() {
+        Game gameA = new Game("Mexico", "Canada", 0, 5, LocalDateTime.now().minusHours(4));
+        Game gameB = new Game("Spain", "Brazil", 10, 2, LocalDateTime.now().minusHours(3));
+        Game gameC = new Game("Germany", "France", 2, 2, LocalDateTime.now().minusHours(2));
+        Game gameD = new Game("Uruguay", "Italy", 6, 6, LocalDateTime.now().minusHours(1));
+        Game gameE = new Game("Argentina", "Australia", 3, 1, LocalDateTime.now());
+
+        when(scoreBoardAdapter.findAllOrderedByStartDate()).thenReturn(List.of(gameA, gameB, gameC, gameD, gameE));
+        List<Game> summary = scoreBoard.getSummary();
+
+        verify(scoreBoardAdapter).findAllOrderedByStartDate();
+        assertEquals(5, summary.size());
+        assertEquals(gameD, summary.get(0));
+        assertEquals(gameB, summary.get(1));
+        assertEquals(gameA, summary.get(2));
+        assertEquals(gameE, summary.get(3));
+        assertEquals(gameC, summary.get(4));
     }
 
 }

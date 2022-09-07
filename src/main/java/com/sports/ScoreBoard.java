@@ -1,11 +1,12 @@
 package com.sports;
 
 import com.sports.adapter.IScoreBoardAdapter;
-import com.sports.error.TeamAlreadyPlayingException;
 import com.sports.error.GameNotFoundException;
+import com.sports.error.TeamAlreadyPlayingException;
 import com.sports.model.Game;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -70,5 +71,18 @@ public class ScoreBoard {
             throw new GameNotFoundException(String.format("%s vs %s, ", homeTeam, awayTeam));
         }
         scoreBoardAdapter.removeGame(homeTeam, awayTeam);
+    }
+
+    /**
+     * Get a summary of games by total score. Those games with the same total score will
+     * be returned ordered by the most recently added to our system.
+     *
+     * @return a {@link List} af the games {@link Game} ordered by total score
+     */
+    public List<Game> getSummary() {
+        List<Game> games = scoreBoardAdapter.findAllOrderedByStartDate();
+        Comparator<Game> comparator = Comparator.comparing(game -> game.getHomeScore() + game.getAwayScore());
+        comparator = comparator.thenComparing(Game::getStartDate).reversed();
+        return games.stream().sorted(comparator).collect(Collectors.toList());
     }
 }
