@@ -2,6 +2,7 @@ package com.sports;
 
 import com.sports.adapter.IScoreBoardAdapter;
 import com.sports.error.TeamAlreadyPlayingException;
+import com.sports.error.GameNotFoundException;
 import com.sports.model.Game;
 
 import java.time.LocalDateTime;
@@ -64,6 +65,10 @@ public class ScoreBoard {
      * @param awayTeam visitor team name
      */
     public void finishGame(String homeTeam, String awayTeam) {
+        List<Game> currentGames = scoreBoardAdapter.findPlayingGamesByTeamNames(homeTeam, awayTeam);
+        if (currentGames.isEmpty()) {
+            throw new GameNotFoundException(String.format("%s vs %s, ", homeTeam, awayTeam));
+        }
         scoreBoardAdapter.removeGame(homeTeam, awayTeam);
     }
 }

@@ -1,6 +1,7 @@
 package com.sports;
 
 import com.sports.adapter.ScoreBoardAdapterImpl;
+import com.sports.error.GameNotFoundException;
 import com.sports.error.TeamAlreadyPlayingException;
 import com.sports.model.Game;
 import org.junit.jupiter.api.AfterEach;
@@ -10,6 +11,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -62,10 +64,15 @@ class ScoreBoardTest {
 
     @Test
     void shouldFinishGame() {
-        String homeTeam = "Home team 1";
-        String awayTeam = "Away team 2";
-        scoreBoard.finishGame(homeTeam, awayTeam);
-        verify(scoreBoardAdapter).removeGame(homeTeam, awayTeam);
+        scoreBoard.finishGame(TEAM_NAME, ANOTHER_TEAM_NAME);
+        verify(scoreBoardAdapter).removeGame(TEAM_NAME, ANOTHER_TEAM_NAME);
+    }
+
+    @Test
+    void shouldNotFinishGame() {
+        when(scoreBoardAdapter.findPlayingGamesByTeamNames(TEAM_NAME, ANOTHER_TEAM_NAME)).thenReturn(Collections.emptyList());
+        assertThrows(GameNotFoundException.class, () -> scoreBoard.finishGame(TEAM_NAME, ANOTHER_TEAM_NAME));
+        verify(scoreBoardAdapter, never()).removeGame(TEAM_NAME, ANOTHER_TEAM_NAME);
     }
 
 }
