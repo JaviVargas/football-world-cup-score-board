@@ -21,4 +21,11 @@ public interface IScoreBoardAdapter {
      * @return a {@link List} containing the {@link Game} matching the given names, otherwise an empty List.
      */
     List<Game> findPlayingGamesByTeamNames(String... teamNames);
+
+    /**
+     * Find all saved games ordered by start date.
+     *
+     * @return a {@link List<Game>} with all stored games ordered by start date.
+     */
+    List<Game> findAllOrderedByStartDate();
 }
