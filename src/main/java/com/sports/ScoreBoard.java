@@ -4,7 +4,7 @@ import com.sports.adapter.IScoreBoardAdapter;
 import com.sports.error.TeamAlreadyPlayingException;
 import com.sports.model.Game;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,7 +32,8 @@ public class ScoreBoard {
     }
 
     /**
-     *  Reset the singleton instance (For testing purposes mainly).
+     * Reset the singleton instance (For testing purposes mainly).
+     * Note: Cannot be accessed from outside package
      */
     public static void reset() {
         INSTANCE = null;
@@ -52,7 +53,7 @@ public class ScoreBoard {
                     currentGames.stream().map(g ->
                             String.format("%s vs %s, ", g.getHomeTeam(), g.getAwayTeam())).collect(Collectors.joining())));
         }
-        Game game = new Game(homeTeam, awayTeam, 0, 0, new Date(), null);
+        Game game = new Game(homeTeam, awayTeam, 0, 0, LocalDateTime.now());
         return scoreBoardAdapter.save(game);
     }
 }

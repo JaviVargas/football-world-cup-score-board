@@ -1,5 +1,6 @@
 package com.sports.model;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
 
@@ -13,14 +14,14 @@ public class Game {
 
     private int awayScore;
 
-    private Date startDate;
+    private LocalDateTime startDate;
 
     public Game(String homeTeam, String awayTeam) {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
     }
 
-    public Game(String homeTeam, String awayTeam, int homeScore, int awayScore, Date startDate, Date endDate) {
+    public Game(String homeTeam, String awayTeam, int homeScore, int awayScore, LocalDateTime startDate) {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
         this.homeScore = homeScore;
@@ -60,11 +61,11 @@ public class Game {
         this.awayScore = awayScore;
     }
 
-    public Date getStartDate() {
+    public LocalDateTime getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDateTime startDate) {
         this.startDate = startDate;
     }
 
